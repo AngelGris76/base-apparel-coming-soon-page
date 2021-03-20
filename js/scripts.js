@@ -1,5 +1,4 @@
 const email = document.getElementById('email');
-const placeholder = document.getElementById('placeholder');
 const errorIcon = document.getElementById('error-icon');
 const errorMessage = document.getElementById('error-message');
 const submitButton = document.getElementById('form__submit');
@@ -7,27 +6,17 @@ const form = document.getElementById('form');
 
 let isError = false;
 
-const changePlaceholder = () =>
-{
-    if(email.value.length > 0)
-    {
-        placeholder.classList.add('form__placeholder--hide');
-    }
-    else
-        placeholder.classList.remove('form__placeholder--hide');
-}
-
 const hideError = () =>
 {
     errorIcon.classList.add('form__error--hide');
     errorMessage.classList.add('form__error--hide');
     email.classList.remove('form__mail--error');
+    email.removeAttribute('aria-invalid');
     isError = false;
 }
 
 email.addEventListener('change', (e) =>
 {
-    changePlaceholder();
     if (email.value.length > 0)
     {
         if (validateEmail(email.value) === false)
@@ -35,6 +24,7 @@ email.addEventListener('change', (e) =>
             errorIcon.classList.remove('form__error--hide');
             errorMessage.classList.remove('form__error--hide');
             email.classList.add('form__mail--error');
+            email.setAttribute('aria-invalid', 'true');
             isError = true;
         }
         else
@@ -46,7 +36,6 @@ email.addEventListener('change', (e) =>
 
 email.addEventListener('keyup', (e) =>
 {
-    changePlaceholder();
     if (email.value.length === 0) hideError();
 });
 
